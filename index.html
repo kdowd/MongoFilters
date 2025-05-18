@@ -18,6 +18,16 @@
         <img width="364" height="68" src="yoobee.svg" alt="yoobee logo" />
     </h1>
     <div class="page-wrapper">
+        <div>
+            <h1 style="text-align: center;">Using Mongo DB Filters in C#</h1>
+
+            <h2 style="text-align: center;">
+                Requires MongoDB.Driver to be install as adorNet package.
+
+            </h2>
+
+        </div>
+
         <div class="accordion-wrapper">
             <!-- start -->
             <fw-accordion expanded>
@@ -26,27 +36,58 @@
                     <fw-icon name="plus" size="14" slot="collapsed-icon"></fw-icon>
                     <fw-pill color=blue>
                         <fw-icon name="add-contact" slot="icon"></fw-icon>
-                        Basic HTML / CSS Usage:
+                        Create a Mapping of the collection - so our local code knows about the collection during
+                        complilation.:
+                    </fw-pill>
+                </fw-accordion-title>
+                <fw-accordion-body>
+                    <pre>
+                        <code>
+
+                   <p>
+                    public class Employee {
+                        [BsonId]
+                        [BsonRepresentation(BsonType.ObjectId)]
+                        public string Id { get; set; }
+                        public string Name { get; set; }
+                        public int Age { get; set; }
+                        public string Designation { get; set; }
+                        public decimal Salary { get; set; }
+                        public DateTime DateOfBirth { get; set; }
+                        public string[] Skills { get; set; }
+                    }
+                    </p>
+                        </code>
+                    </pre>
+
+
+                    <div class="toggle-wrapper"><fw-toggle size="medium"></fw-toggle></div>
+
+                </fw-accordion-body>
+            </fw-accordion>
+            <!-- end -->
+
+            <!-- start -->
+            <fw-accordion expanded>
+                <fw-accordion-title>
+                    <fw-icon name="minus" size="14" slot="expanded-icon"></fw-icon>
+                    <fw-icon name="plus" size="14" slot="collapsed-icon"></fw-icon>
+                    <fw-pill color=blue>
+                        <fw-icon name="add-contact" slot="icon"></fw-icon>
+                        Create instance of the Collection:
                     </fw-pill>
                 </fw-accordion-title>
                 <fw-accordion-body>
                     <p>
-                        We'll spend the next 30 mins getting used to VSCode and building a
-                        simple web page.
+                        _employeeCollection = database.GetCollection&lt;Employee&gt;(employeeCollection);
                     </p>
                     <p>
-                        We will create some CSS and CSS classes and then save that code to
-                        an external CSS file.
+                        The data type would be IMongoCollection&lt;Employee&gt;
+                        So, we could write:
                     </p>
-                    <p>Finally we will link our basic web page to the external CSS.</p>
-                    <p>
-                        Doing all of the above will help prepare you for the rest of
-                        today.
-                    </p>
-                    <p>
-                        I will be sharing code with you but you'll need to have some idea
-                        where the code goes and how it relates to the page and page style.
-                    </p>
+                    <p> IMongoCollection&lt;Employee&gt; _employeeCollection = database.GetCollection &lt;Employee&gt;
+                        (employeeCollection);</p>
+
                     <div class="toggle-wrapper"><fw-toggle size="medium"></fw-toggle></div>
 
                 </fw-accordion-body>
