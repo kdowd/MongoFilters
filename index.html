@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <script type="module"
+        src="https://cdn.jsdelivr.net/npm/@freshworks/crayons@v4/dist/crayons/crayons.esm.js"></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/@freshworks/crayons@v4/dist/crayons/crayons.js"></script>
+
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <h1 style="background-color: #c0d0d0;; padding: 1rem; border-radius: 12px">
+        <img width="364" height="68" src="yoobee.svg" alt="yoobee logo" />
+    </h1>
+    <div class="page-wrapper">
+        <div class="accordion-wrapper">
+            <!-- start -->
+            <fw-accordion expanded>
+                <fw-accordion-title>
+                    <fw-icon name="minus" size="14" slot="expanded-icon"></fw-icon>
+                    <fw-icon name="plus" size="14" slot="collapsed-icon"></fw-icon>
+                    <fw-pill color=blue>
+                        <fw-icon name="add-contact" slot="icon"></fw-icon>
+                        Basic HTML / CSS Usage:
+                    </fw-pill>
+                </fw-accordion-title>
+                <fw-accordion-body>
+                    <p>
+                        We'll spend the next 30 mins getting used to VSCode and building a
+                        simple web page.
+                    </p>
+                    <p>
+                        We will create some CSS and CSS classes and then save that code to
+                        an external CSS file.
+                    </p>
+                    <p>Finally we will link our basic web page to the external CSS.</p>
+                    <p>
+                        Doing all of the above will help prepare you for the rest of
+                        today.
+                    </p>
+                    <p>
+                        I will be sharing code with you but you'll need to have some idea
+                        where the code goes and how it relates to the page and page style.
+                    </p>
+                    <div class="toggle-wrapper"><fw-toggle size="medium"></fw-toggle></div>
+
+                </fw-accordion-body>
+            </fw-accordion>
+            <!-- end -->
+
+
+        </div>
+    </div>
+</body>
+
+</html>
