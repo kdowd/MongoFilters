@@ -1,230 +1,308 @@
 <!DOCTYPE html>
 <html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+		<script
+			type="module"
+			src="https://cdn.jsdelivr.net/npm/@freshworks/crayons@v4/dist/crayons/crayons.esm.js"></script>
+		<script nomodule src="https://cdn.jsdelivr.net/npm/@freshworks/crayons@v4/dist/crayons/crayons.js"></script>
 
-    <script type="module"
-        src="https://cdn.jsdelivr.net/npm/@freshworks/crayons@v4/dist/crayons/crayons.esm.js"></script>
-    <script nomodule src="https://cdn.jsdelivr.net/npm/@freshworks/crayons@v4/dist/crayons/crayons.js"></script>
+		<link rel="stylesheet" href="styles.css" />
+	</head>
 
-    <link rel="stylesheet" href="styles.css" />
-</head>
+	<body>
+		<h1 style="background-color: #c0d0d0; padding: 1rem; border-radius: 12px">
+			<img class="logo" src="yoobee.svg" alt="yoobee logo" />
+		</h1>
+		<div class="page-wrapper">
+			<div class="headboard">
+				<h1>Using Mongo DB Filters in C#</h1>
 
-<body>
-    <h1 style="background-color: #c0d0d0;; padding: 1rem; border-radius: 12px">
-        <img class="logo" src="yoobee.svg" alt="yoobee logo" />
-    </h1>
-    <div class="page-wrapper">
-        <div class="headboard">
-            <h1>Using Mongo DB Filters in C#</h1>
+				<h2>Requires MongoDB.Driver to be installed as a dotNet package.</h2>
+				<img src="filters.png" alt="yoobee logo" />
+			</div>
 
-            <h2>
-                Requires MongoDB.Driver to be installed as a dotNet package.
+			<div class="accordion-wrapper">
+				<!-- start -->
+				<fw-accordion>
+					<fw-accordion-title>
+						<fw-icon name="minus" size="14" slot="expanded-icon"></fw-icon>
+						<fw-icon name="plus" size="14" slot="collapsed-icon"></fw-icon>
+						<fw-pill color="blue">
+							<fw-icon name="add-contact" slot="icon"></fw-icon>
+							Create a Mapping of the collection:
+						</fw-pill>
+					</fw-accordion-title>
+					<fw-accordion-body>
+						<p>We do this so that our local code knows about the collection during complilation.</p>
+						<p>Here's our collection mapping - a C# class that describes the collection.</p>
 
-            </h2>
-            <img src="filters.png" alt="yoobee logo" />
-            <div>
-                <a href="https://github.com/YogeshHadiya33/MongoDbWithDotNet">Code on GitHub:</a>
-            </div>
-
-        </div>
-
-        <div class="accordion-wrapper">
-            <!-- start -->
-            <fw-accordion expanded>
-                <fw-accordion-title>
-                    <fw-icon name="minus" size="14" slot="expanded-icon"></fw-icon>
-                    <fw-icon name="plus" size="14" slot="collapsed-icon"></fw-icon>
-                    <fw-pill color=blue>
-                        <fw-icon name="add-contact" slot="icon"></fw-icon>
-                        Create a Mapping of the collection - so our local code knows about the collection during
-                        complilation.:
-                    </fw-pill>
-                </fw-accordion-title>
-                <fw-accordion-body>
-                    <p>Here's our collection mapping - a C# class that describes the collection.</p>
-                    <p>You must register a class map before it's needed in your code. We recommend registering class
-                        maps prior to initializing a connection with MongoDB.</p>
-                    <p>https://www.mongodb.com/docs/drivers/csharp/v2.19/fundamentals/serialization/class-mapping/</p>
-                    <pre>
+						<pre>
                         <code>
+                            using MongoDB.Bson;
+                            using MongoDB.Bson.Serialization.Attributes;
 
-                  
-                    public class Employee {
+                    [BsonIgnoreExtraElements]
+                    public class <strong>Employee</strong> {
+
                         [BsonId]
                         [BsonRepresentation(BsonType.ObjectId)]
                         public string Id { get; set; }
+
+                        [BsonElement("name")] 
                         public string Name { get; set; }
+
+                        [BsonElement("age")] 
                         public int Age { get; set; }
-                        public string Designation { get; set; }
+                        
+                        [BsonElement("salary")] 
                         public decimal Salary { get; set; }
-                        public DateTime DateOfBirth { get; set; }
+
+                        [BsonElement("date_of_birth")] 
+                        public date Date_Of_Birth { get; set; }
+
+                       //"an array of skills"
+                        [BsonElement("skills")] 
                         public string[] Skills { get; set; }
+
                     }
                    
                         </code>
                     </pre>
+					</fw-accordion-body>
+				</fw-accordion>
+				<!-- end -->
 
+				<!-- start -->
+				<fw-accordion>
+					<fw-accordion-title>
+						<fw-icon name="minus" size="14" slot="expanded-icon"></fw-icon>
+						<fw-icon name="plus" size="14" slot="collapsed-icon"></fw-icon>
+						<fw-pill color="blue">
+							<fw-icon name="add-contact" slot="icon"></fw-icon>
+							Create instance of the Collection:
+						</fw-pill>
+					</fw-accordion-title>
+					<fw-accordion-body>
+						<p>_employeeCollection = database.GetCollection&lt;Employee&gt;(employeeCollection);</p>
+						<p>The data type would be IMongoCollection&lt;Employee&gt; So, we could write:</p>
+						<p>
+							IMongoCollection&lt;Employee&gt; _employeeCollection = database.GetCollection &lt;Employee&gt;
+							(employeeCollection);
+						</p>
+					</fw-accordion-body>
+				</fw-accordion>
+				<!-- end -->
 
-                    <div class="toggle-wrapper"><fw-toggle size="medium"></fw-toggle></div>
+				<!-- start -->
+				<fw-accordion>
+					<fw-accordion-title>
+						<fw-icon name="minus" size="14" slot="expanded-icon"></fw-icon>
+						<fw-icon name="plus" size="14" slot="collapsed-icon"></fw-icon>
+						<fw-pill color="blue">
+							<fw-icon name="add-contact" slot="icon"></fw-icon>
+							Equality Filter:
+						</fw-pill>
+					</fw-accordion-title>
+					<fw-accordion-body>
+						<p>
+							Find a Mongo document based upon matching field values. The method is part of the FilterDefinitionBuilder
+							class, accessible through Builders Class in C#.
+						</p>
+						<p>var filter = Builders&lt;Employee&gt.Filter.Eq(emp => emp.Name, name);</p>
+						<p>var results = _employeeCollection.Find(filter).ToList();</p>
+						<hr />
+						<p>NB: There is also a Not Equals Filter:</p>
+						<p>var filter = Builders&lt;Employee&gt.Filter.Ne(emp => emp.Name, name);</p>
+					</fw-accordion-body>
+				</fw-accordion>
+				<!-- end -->
 
-                </fw-accordion-body>
-            </fw-accordion>
-            <!-- end -->
-
-            <!-- start -->
-            <fw-accordion expanded>
-                <fw-accordion-title>
-                    <fw-icon name="minus" size="14" slot="expanded-icon"></fw-icon>
-                    <fw-icon name="plus" size="14" slot="collapsed-icon"></fw-icon>
-                    <fw-pill color=blue>
-                        <fw-icon name="add-contact" slot="icon"></fw-icon>
-                        Create instance of the Collection:
-                    </fw-pill>
-                </fw-accordion-title>
-                <fw-accordion-body>
-                    <p>
-                        _employeeCollection = database.GetCollection&lt;Employee&gt;(employeeCollection);
-                    </p>
-                    <p>
-                        The data type would be IMongoCollection&lt;Employee&gt;
-                        So, we could write:
-                    </p>
-                    <p> IMongoCollection&lt;Employee&gt; _employeeCollection = database.GetCollection &lt;Employee&gt;
-                        (employeeCollection);</p>
-
-                    <div class="toggle-wrapper"><fw-toggle size="medium"></fw-toggle></div>
-
-                </fw-accordion-body>
-            </fw-accordion>
-            <!-- end -->
-
-            <!-- start -->
-            <fw-accordion expanded>
-                <fw-accordion-title>
-                    <fw-icon name="minus" size="14" slot="expanded-icon"></fw-icon>
-                    <fw-icon name="plus" size="14" slot="collapsed-icon"></fw-icon>
-                    <fw-pill color=blue>
-                        <fw-icon name="add-contact" slot="icon"></fw-icon>
-                        Equality Filter:
-                    </fw-pill>
-                </fw-accordion-title>
-                <fw-accordion-body>
-                    <p>
-                        Find a Mongo document based upon matching field values.
-                        The method is part of the FilterDefinitionBuilder class, accessible through Builders Class in
-                        C#.
-                    </p>
-                    <p>
-                        var filter = Builders&lt;Employee&gt.Filter.Eq(emp => emp.Name, name);
-                    </p>
-                    <p> var results = _employeeCollection.Find(filter).ToList(); </p>
-                    <hr>
-                    <p>NB: There is also a Not Equals Filter:</p>
-                    <p>var filter = Builders&lt;Employee&gt.Filter.Ne(emp => emp.Name, name);</p>
-
-                    <div class="toggle-wrapper"><fw-toggle size="medium"></fw-toggle></div>
-
-                </fw-accordion-body>
-            </fw-accordion>
-            <!-- end -->
-
-            <!-- start -->
-            <fw-accordion expanded>
-                <fw-accordion-title>
-                    <fw-icon name="minus" size="14" slot="expanded-icon"></fw-icon>
-                    <fw-icon name="plus" size="14" slot="collapsed-icon"></fw-icon>
-                    <fw-pill color=blue>
-                        <fw-icon name="add-contact" slot="icon"></fw-icon>
-                        Greater Than / Less Than Filter:
-                    </fw-pill>
-                </fw-accordion-title>
-                <fw-accordion-body>
-                    <p>
-                        Use numbers to filter the current collections reponse.
-                    </p>
-                    <p>
-                        var filter = Builders<Employee>.Filter.Gt(emp => emp.Age, age);
-
-                    </p>
-                    <p> var results = _employeeCollection.Find(filter).ToList(); </p>
-                    <hr>
-                    <p>NB: The is also the greater than or equals filter and a leass then or equals filter:</p>
-                    <p>var filter = Builders<Employee>.Filter.Gte(emp => emp.Age, age);</p>
-                    <p>var filter = Builders<Employee>.Filter.Lte(emp => emp.Age, age)</p>
-
-                    <div class="toggle-wrapper"><fw-toggle size="medium"></fw-toggle></div>
-
-                </fw-accordion-body>
-            </fw-accordion>
-            <!-- end -->
-            <!-- start -->
-            <fw-accordion expanded>
-                <fw-accordion-title>
-                    <fw-icon name="minus" size="14" slot="expanded-icon"></fw-icon>
-                    <fw-icon name="plus" size="14" slot="collapsed-icon"></fw-icon>
-                    <fw-pill color=blue>
-                        <fw-icon name="add-contact" slot="icon"></fw-icon>
-                        The "In" Filter:
-                    </fw-pill>
-                </fw-accordion-title>
-                <fw-accordion-body>
-                    <p>
-                        The In filter to select documents using an arrays of values that the developer sends.
-                        This method simplifies querieying collections when there are multiple possible matches for the
-                        specified field.
-
-                    </p>
-                    <p>
-                        List<string> names = XXXXXXXXXXXXXXXXXXXXX
-                            var filter = Builders<Employee>.Filter.In(emp => emp.Name, names);
+				<!-- start -->
+				<fw-accordion>
+					<fw-accordion-title>
+						<fw-icon name="minus" size="14" slot="expanded-icon"></fw-icon>
+						<fw-icon name="plus" size="14" slot="collapsed-icon"></fw-icon>
+						<fw-pill color="blue">
+							<fw-icon name="add-contact" slot="icon"></fw-icon>
+							Greater Than / Less Than Filter:
+						</fw-pill>
+					</fw-accordion-title>
+					<fw-accordion-body>
+						<p>Use numbers to filter the current collections reponse.</p>
+						<p>var filter = Builders&lt;Employee&gt;.Filter.Gt(emp => emp.Age, age);</p>
+						<p>var results = _employeeCollection.Find(filter).ToList();</p>
+						<hr />
+						<p>NB: The is also the greater than or equals filter and a leass then or equals filter:</p>
+						<p>var filter = Builders&lt;Employee&gt;.Filter.Gte(emp => emp.Age, age);</p>
+						<p>var filter = Builders&lt;Employee&gt;.Filter.Lte(emp => emp.Age, age)</p>
+					</fw-accordion-body>
+				</fw-accordion>
+				<!-- end -->
+				<!-- start -->
+				<fw-accordion>
+					<fw-accordion-title>
+						<fw-icon name="minus" size="14" slot="expanded-icon"></fw-icon>
+						<fw-icon name="plus" size="14" slot="collapsed-icon"></fw-icon>
+						<fw-pill color="blue">
+							<fw-icon name="add-contact" slot="icon"></fw-icon>
+							The "In" Filter:
+						</fw-pill>
+					</fw-accordion-title>
+					<fw-accordion-body>
+						<p>
+							The In filter to select documents using an arrays of values that the developer sends. This method
+							simplifies querieying collections when there are multiple possible matches for the specified field.
+						</p>
+						<pre>
+                        <code>
+                            List&lt;string&gt; namesList = new List&lt;string&gt;();
+                                namesList.Add("John");
+                                namesList.Add("Paul");
+                                namesList.Add("George");
+                                namesList.Add("Ringo");
+                                var filter = Builders&lt;Employee&gt;.Filter.In(emp => emp.Name, namesList);
                                 var results = _employeeCollection.Find(filter).ToList();
+                            </code>
+                        </pre>
 
-                    </p>
-                    <p> var results = _employeeCollection.Find(filter).ToList(); </p>
-                    <hr>
-                    <p>NB: The is also the greater than or equals filter and a leass then or equals filter:</p>
-                    <p>var filter = Builders<Employee>.Filter.Gte(emp => emp.Age, age);</p>
-                    <p>var filter = Builders<Employee>.Filter.Lte(emp => emp.Age, age)</p>
+						<p>var results = _employeeCollection.Find(filter).ToList();</p>
+						<hr />
+						<p>NB: The is also the greater than or equals filter and a leass then or equals filter:</p>
+						<p>var filter = Builders&lt;Employee&gt;.Filter.Gte(emp => emp.Age, age);</p>
+						<p>var filter = Builders&lt;Employee&gt;.Filter.Lte(emp => emp.Age, age)</p>
+					</fw-accordion-body>
+				</fw-accordion>
+				<!-- end -->
+				<!-- start -->
+				<fw-accordion>
+					<fw-accordion-title>
+						<fw-icon name="minus" size="14" slot="expanded-icon"></fw-icon>
+						<fw-icon name="plus" size="14" slot="collapsed-icon"></fw-icon>
+						<fw-pill color="blue">
+							<fw-icon name="add-contact" slot="icon"></fw-icon>
+							The "ElemMatch" Filter:
+						</fw-pill>
+					</fw-accordion-title>
+					<fw-accordion-body>
+						<p>
+							The ElemMatch Filter. select documents where at least one element of an array field matches a specified
+							condition. In this example, it filters Employee documents where at least one element of the Skills array
+							matches the provided skill
+						</p>
 
-                    <div class="toggle-wrapper"><fw-toggle size="medium"></fw-toggle></div>
+						<pre>
+                        <code>
+                            List&lt;string&gt; skillsList = new List&lt;string&gt;();
+                            skillsList.Add("C++");
+                            skillsList.Add("Python");
+                            skillsList.Add("Java");
+                            var filter = Builders&lt;Employee&gt;.Filter.ElemMatch(emp => emp.Skills, skills);    
+                            var results = _employeeCollection.Find(filter).ToList();
+                           
+                        </code>
+                    </pre>
+					</fw-accordion-body>
+				</fw-accordion>
+				<!-- end -->
+				<fw-accordion>
+					<fw-accordion-title>
+						<fw-icon name="minus" size="14" slot="expanded-icon"></fw-icon>
+						<fw-icon name="plus" size="14" slot="collapsed-icon"></fw-icon>
+						<fw-pill color="blue">
+							<fw-icon name="add-contact" slot="icon"></fw-icon>
+							The "All" Filter:
+						</fw-pill>
+					</fw-accordion-title>
+					<fw-accordion-body>
+						<p>
+							The All Filter. select documents where all elements of an array are matched in a document. In this
+							example, it filters Employee documents where all element of the Skills array are matched.
+						</p>
 
-                </fw-accordion-body>
-            </fw-accordion>
-            <!-- end --> <!-- start -->
-            <fw-accordion expanded>
-                <fw-accordion-title>
-                    <fw-icon name="minus" size="14" slot="expanded-icon"></fw-icon>
-                    <fw-icon name="plus" size="14" slot="collapsed-icon"></fw-icon>
-                    <fw-pill color=blue>
-                        <fw-icon name="add-contact" slot="icon"></fw-icon>
-                        The "ElemMatch" Filter:
-                    </fw-pill>
-                </fw-accordion-title>
-                <fw-accordion-body>
-                    <p>
-                        The ElemMatch Filter. select documents where at least one element of an array field matches a
-                        specified condition. In this example, it filters Employee documents where at
-                        least one element of the Skills array matches the provided skill
+						<pre>
+                    <code>
+                        List&lt;string&gt; skillsList = new List&lt;string&gt;();
+                        skillsList.Add("C++");
+                        skillsList.Add("Python");
+                        skillsList.Add("Java");
+                        var filter = Builders&lt;Employee&gt;.Filter.All(emp => emp.Skills, skills);    
+                        var results = _employeeCollection.Find(filter).ToList();
+                       
+                    </code>
+                </pre>
+					</fw-accordion-body>
+				</fw-accordion>
+				<!--end-->
+				<fw-accordion>
+					<fw-accordion-title>
+						<fw-icon name="minus" size="14" slot="expanded-icon"></fw-icon>
+						<fw-icon name="plus" size="14" slot="collapsed-icon"></fw-icon>
+						<fw-pill color="blue">
+							<fw-icon name="add-contact" slot="icon"></fw-icon>
+							The "RegEx" Filter: ( Regular Expression)
+						</fw-pill>
+					</fw-accordion-title>
+					<fw-accordion-body>
+						<p>
+							The RegEx Filter . Very powerful method, only works with string fields. It helps you find documents with
+							text that fit complex patterns. A limitless filter, for strings.
+						</p>
 
-                    </p>
-                    <p>
-                        List<string> skills = XXXXXXXXXXXXXXXXXXXXX
-                            var filter = Builders<Employee>.Filter.ElemMatch(emp => emp.Skills, skill);
-                                var results = _employeeCollection.Find(filter).ToList();
-                    </p>
+						<pre>
+                    <code>
+                        var pattern = "^dave"; // Names starting with 'dave'
+                        //var pattern = ".[aei]."; // Names containing 'a', 'e', or 'i'
+                        
+                        // case insensitive find operation
+                        var filter = Builders&lt;Employee&gt;.Filter.Regex(emp => emp.Name, new BsonRegularExpression(pattern, "i"));
+                        var results = _employeeCollection.Find(filter).ToList();            
+                    </code>
+                </pre>
+					</fw-accordion-body>
+				</fw-accordion>
+				<!--end-->
+				<fw-accordion>
+					<fw-accordion-title>
+						<fw-icon name="minus" size="14" slot="expanded-icon"></fw-icon>
+						<fw-icon name="plus" size="14" slot="collapsed-icon"></fw-icon>
+						<fw-pill color="blue">
+							<fw-icon name="add-contact" slot="icon"></fw-icon>
+							And Filter / Or Filter:
+						</fw-pill>
+					</fw-accordion-title>
+					<fw-accordion-body>
+						<p>
+							The And method constructs a filter to select documents where multiple conditions must all be true
+							simultaneously. The following searchs all documents in the _employeeCollection by Name AND Age.
+						</p>
 
+						<pre>
+                    <code>
+                        var filter = Builders&lt;Employee&gt;.Filter.And( Builders.&lt;Employee&gt;.Filter.Eq(emp => emp.Name, name),        
+                            Builders&lt;Employee&gt;.Filter.Eq(emp => emp.Age, age));
 
-                    <div class="toggle-wrapper"><fw-toggle size="medium"></fw-toggle></div>
+                        var results = _employeeCollection.Find(filter).ToList();
+                    </code>
+                </pre>
 
-                </fw-accordion-body>
-            </fw-accordion>
-            <!-- end -->
-        </div>
-    </div>
-</body>
+						<hr />
 
+						<p>There is also an OR filter:</p>
+						<pre>
+                    <code>
+                        var filter = Builders&lt;Employee&gt;.Filter.Or( Builders.&lt;Employee&gt;.Filter.Eq(emp => emp.Name, name),        
+                            Builders&lt;Employee&gt;.Filter.Eq(emp => emp.Age, age));
+
+                        var results = _employeeCollection.Find(filter).ToList();
+                    </code>
+                </pre>
+					</fw-accordion-body>
+				</fw-accordion>
+			</div>
+		</div>
+	</body>
 </html>
