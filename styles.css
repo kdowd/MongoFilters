@@ -11,6 +11,11 @@ body {
   place-content: center;
 }
 
+.logo {
+  padding: 1rem;
+  max-width: 400px;
+}
+
 ul li {
   margin-bottom: 16px;
 }
@@ -25,4 +30,27 @@ a {
 
 .toggle-wrapper {
   visibility: hidden;
+}
+
+hr {
+  width: 33.333%;
+  margin: 0;
+  margin-top: 0px;
+  background-color: brown;
+  color: aliceblue;
+  margin-top: 3rem;
+}
+
+pre {
+  white-space: pre-line;
+  word-wrap: break-word;
+  text-align: justify;
+}
+
+.headboard {
+  text-align: center;
+
+  img {
+    max-width: 300px;
+  }
 }
