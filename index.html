@@ -282,7 +282,7 @@
 
 						<pre>
                     <code>
-                        var filter = Builders&lt;Employee&gt;.Filter.And( Builders.&lt;Employee&gt;.Filter.Eq(emp => emp.Name, name),        
+                        var filter = Builders&lt;Employee&gt;.Filter.And( Builders&lt;Employee&gt;.Filter.Eq(emp => emp.Name, name),        
                             Builders&lt;Employee&gt;.Filter.Eq(emp => emp.Age, age));
 
                         var results = _employeeCollection.Find(filter).ToList();
@@ -294,7 +294,7 @@
 						<p>There is also an OR filter:</p>
 						<pre>
                     <code>
-                        var filter = Builders&lt;Employee&gt;.Filter.Or( Builders.&lt;Employee&gt;.Filter.Eq(emp => emp.Name, name),        
+                        var filter = Builders&lt;Employee&gt;.Filter.Or( Builders&lt;Employee&gt;.Filter.Eq(emp => emp.Name, name),        
                             Builders&lt;Employee&gt;.Filter.Eq(emp => emp.Age, age));
 
                         var results = _employeeCollection.Find(filter).ToList();
